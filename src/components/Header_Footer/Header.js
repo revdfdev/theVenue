@@ -1,41 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { Component } from "react";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
-import SideDrawer from "../SideDrawer/SideDrawer";
 
-export default function Header() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [headerShow, showHeader] = useState(false);
+import SideDrawer from "./SideDrawer";
 
-  const toggleDrawer = value => {
-    setDrawerOpen(value);
+class Header extends Component {
+  state = {
+    drawerOpen: false,
+    headerShow: false
   };
 
-  const userScroll = () => {
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
     if (window.scrollY > 0) {
-      showHeader(true);
+      this.setState({
+        headerShow: true
+      });
     } else {
-      showHeader(false);
+      this.setState({
+        headerShow: false
+      });
     }
   };
 
-  useEffect(() => {
-    window.addEventListener("scroll", userScroll);
+  toggleDrawer = value => {
+    this.setState({
+      drawerOpen: value
+    });
+  };
 
-    return () => {
-      window.removeEventListener("scroll", userScroll);
-    };
-  });
-
-  return (
-    <div>
+  render() {
+    return (
       <AppBar
         position="fixed"
         style={{
-          backgroundColor: headerShow ? "#2f2f2f" : "transparent",
+          backgroundColor: this.state.headerShow ? "#2f2f2f" : "transparent",
           boxShadow: "none",
           padding: "10px 0px"
         }}
@@ -43,22 +48,25 @@ export default function Header() {
         <Toolbar>
           <div className="header_logo">
             <div className="font_righteous header_logo_venue">The Venue</div>
-            <div className="header_logo_title">Musical events</div>
+            <div className="header_logo_title">Musical Event</div>
           </div>
 
           <IconButton
             aria-label="Menu"
             color="inherit"
-            onClick={() => toggleDrawer(true)}
+            onClick={() => this.toggleDrawer(true)}
           >
             <MenuIcon />
           </IconButton>
+
           <SideDrawer
-            open={drawerOpen}
-            onClose={value => toggleDrawer(value)}
+            open={this.state.drawerOpen}
+            onClose={value => this.toggleDrawer(value)}
           />
         </Toolbar>
       </AppBar>
-    </div>
-  );
+    );
+  }
 }
+
+export default Header;

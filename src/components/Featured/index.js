@@ -1,19 +1,19 @@
 import React from "react";
-import Carousel from "./Carousel";
-import Countdown from "./Countdown";
+import Carrousel from "./Carrousel";
+import TimeUntil from "./TimeUntil";
 
-export default function Featured() {
+const Featured = () => {
   return (
-    <div
-      style={{
-        position: "relative"
-      }}
-    >
-      <Carousel />
+    <div style={{ position: "relative" }}>
+      <Carrousel />
+
       <div className="artist_name">
-        <div className="wrapper">Ariana grande</div>
+        <div className="wrapper">Ariana Grande</div>
       </div>
-      <Countdown />
+
+      <TimeUntil />
     </div>
   );
-}
+};
+
+export default Featured;
